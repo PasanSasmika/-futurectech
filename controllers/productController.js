@@ -26,3 +26,50 @@ export async function createProduct(req, res) {
         });
     }
 }
+
+
+// Get All Products
+
+
+export async function getAllProducts(req, res) {
+
+    try {
+        const products = await Product.find({});
+        res.status(200).json({
+            success: true,
+            count: products.length,
+            data: products
+        });
+
+    } catch (error) {
+        
+        console.error('Error fetching products:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error while fetching products',
+            error: error.message
+        });
+    }
+}
+
+
+// Get Product By Id
+
+export async function getProductById(req,res) {
+
+    try {
+        const productId = req.params.productId
+
+        const product = await Product.findOne({productId : productId})
+
+        res.json(product)
+
+    } catch (error) {
+        res.status(500).json({
+             success: false,
+            message: 'Server error while fetching product',
+            error: error.message
+        })
+    }
+    
+}
