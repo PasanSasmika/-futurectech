@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import "dotenv/config";
 import bodyParser from 'body-parser';
 import userRouter from './routes/userRoutes.js';
+import productRouter from './routes/productRoute.js';
 
 
 const app = express();
@@ -21,6 +22,7 @@ connection.once("open",()=>{
 
 
 app.use("/api/users",userRouter)
+app.use("/api/product",productRouter)
 
 
 app.listen(
