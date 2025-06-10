@@ -37,3 +37,50 @@ export async function userRegistration(req, res) {
         });
     }
 }
+
+
+
+
+// User Login
+export async function loginUser(req, res) {
+    try {
+        const { email, password } = req.body;
+
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        
+        const user = await User.findOne({ email });
+        
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        
+        const isPasswordCorrect = bcrypt.compareSync(password, user.password);
+        
+        if (!isPasswordCorrect) {
+            return res.status(401).json({ message: "Incorrect password" });
+        }
+
+        
+        res.status(200).json({
+            message: "Login successful",
+            user: {
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            }
+        });
+
+    } catch (err) {
+        console.error("Error in user login:", err);
+        res.status(500).json({ 
+            message: "An error occurred during login", 
+            error: err.message 
+        });
+    }
+}
