@@ -1,8 +1,6 @@
 import Product from "../models/productModel.js";
 
 
-
-
 // Create Product
 
 
@@ -72,4 +70,33 @@ export async function getProductById(req,res) {
         })
     }
     
+}
+
+
+// Update Product
+
+export async function updateProduct(req, res) {
+
+    try {
+        const updatedProduct = await Product.findOneAndUpdate(
+            { productId: req.params.productId },
+            { $set: req.body },
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: updatedProduct
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Server error in updating product',
+            error: error.message
+        });
+    }
 }
