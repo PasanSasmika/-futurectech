@@ -100,3 +100,28 @@ export async function updateProduct(req, res) {
         });
     }
 }
+
+
+
+// Delete Product
+
+export async function deleteProduct(req, res){
+
+    try {
+      const product = await Product.findByIdAndDelete(req.params.id);
+      if (!product) 
+      return res.status(404).json({
+       message: 'Product not found'
+     });
+
+      res.json({
+      message: 'Product removed'
+    });
+
+    } catch (error) {
+      res.status(500).json({
+      message: 'Server error in updating product',
+      error: error.message 
+    });
+    }
+  };
