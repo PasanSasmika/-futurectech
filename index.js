@@ -10,16 +10,22 @@ const app = express();
 app.use(bodyParser.json())
 
 
-const mongoUrl = process.env.MONGODB_URI
+const mongoUrl = process.env.MONGODB_URI;
+if (!mongoUrl) {
+  console.error("Missing MONGODB_URI in .env");
+  process.exit(1);
+}
 
-mongoose.connect(mongoUrl,{})
-
-const connection = mongoose.connection;
-
-connection.once("open",()=>{
-  console.log("Database connected");
-})
-
+const connectDB = async () => {
+  try {
+    await mongoose.connect(mongoUrl, {});
+    console.log("Database connected");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    process.exit(1);
+  }
+};
+connectDB();
 
 app.use("/api/users",userRouter)
 app.use("/api/product",productRouter)
