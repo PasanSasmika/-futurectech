@@ -56,9 +56,12 @@ export async function getAllProducts(req, res) {
 export async function getProductById(req,res) {
 
     try {
-        const productId = req.params.productId
+        const productId = req.params.id;
 
-        const product = await Product.findOne({productId : productId})
+        const product = await Product.findById(productId);
+         if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
 
         res.json(product)
 
@@ -78,8 +81,8 @@ export async function getProductById(req,res) {
 export async function updateProduct(req, res) {
 
     try {
-        const updatedProduct = await Product.findOneAndUpdate(
-            { productId: req.params.productId },
+        const updatedProduct = await Product.findByIdAndUpdate(
+             req.params.id ,
             { $set: req.body },
             { new: true }
         );
