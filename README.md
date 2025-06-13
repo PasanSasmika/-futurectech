@@ -46,8 +46,5 @@ MONGODB_URI=mongodb:"Your Mobgodb Database URL"
 
 npm start
 
-# 🚀 Basic REST API with Node.js, Express & MongoDB 🛠️
-
-![Visitor Badge](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/PasanSasmika/-futurectech&count_bg=%2379C83D&title_bg=%23555555&icon=github.svg&icon_color=%23FFFFFF&title=Visitors&edge_flat=false)
 
 
